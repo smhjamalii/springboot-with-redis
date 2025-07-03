@@ -1,0 +1,7 @@
+POST http://localhost:8080/data?key=name&value=flag HTTP/2
+Accept: application/json
+Content-Type: application/json
+
+{}
+
+###
