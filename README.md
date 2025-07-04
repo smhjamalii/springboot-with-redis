@@ -23,7 +23,14 @@ When installation process is finished create a cluster :
 > 
 > helm repo update
 > 
-> helm install redis bitnami/redis-cluster
+> helm install sentinel --set sentinel.enabled=true bitnami/redis
+
+To get your redis password run :
+
+> export REDIS_PASSWORD=$(kubectl get secret --namespace default sentinel-redis -o jsonpath="{.data.redis-password}" | base64 -d)
+> 
+> echo $REDIS_PASSWORD
+
 
 ### Build docker image
 
@@ -74,10 +81,17 @@ You can run redis.http which is in test/resources directory.
 For more investigation in your redis cluster :
 
 1. Run a Redis&reg; pod that you can use as a client:
-   kubectl run --namespace default redis-redis-cluster-client --rm --tty -i --restart='Never' \
-   --env REDIS_PASSWORD=$REDIS_PASSWORD \
-   --image docker.io/bitnami/redis-cluster:8.0.2-debian-12-r2 -- bash
+   kubectl run --namespace default redis-client --restart='Never'  --env REDIS_PASSWORD=$REDIS_PASSWORD  --image docker.io/bitnami/redis:8.0.2-debian-12-r4 --command -- sleep infinity
+
+   Use the following command to attach to the pod:
+   kubectl exec --tty -i redis-client --namespace default -- bash
 
 2. Connect using the Redis&reg; CLI:
 
-redis-cli -c -h redis-redis-cluster -a $REDIS_PASSWORD
+> for Read only operations
+> 
+> REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli -h sentinel-redis -p 6379
+> 
+> for Sentinel access
+> 
+> REDISCLI_AUTH="$REDIS_PASSWORD" redis-cli -h sentinel-redis -p 26379
