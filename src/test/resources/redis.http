@@ -5,3 +5,8 @@ Content-Type: application/json
 {}
 
 ###
+GET http://localhost:8080/indices?name=Emmett Madden HTTP/2
+Accept: application/json
+Content-Type: application/json
+
+###
