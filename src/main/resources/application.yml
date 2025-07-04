@@ -3,5 +3,11 @@ spring:
     name: springboot-with-redis
   data:
     redis:
-      host: localhost
+      cluster:
+        nodes: redis-redis-cluster:6379
+      host: redis-redis-cluster
       port: 6379
+      password: tfp4zj9yO1
+      username: default
+server:
+  port: 8080
