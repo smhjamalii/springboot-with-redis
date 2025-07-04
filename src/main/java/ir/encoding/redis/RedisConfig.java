@@ -34,9 +34,17 @@ public class RedisConfig {
                 .master(this.MASTER_NODE_NAME)
                 .sentinel(RedisNode.fromString(this.SENTINEL_NODES));
 
-        sentinelConfig.setUsername(this.USERNAME);
-        sentinelConfig.setPassword(this.PASSWORD);
+        /**
+         * if you forget to set sentinel username it will work with redis correctly,
+         * and you won't get any error message until you deploy in a real k8s cluster!
+         */
         sentinelConfig.setSentinelUsername(this.USERNAME);
+
+        /**
+         * if you forget to set sentinel password you will get this ambiguous error message:
+         * io.lettuce.core.RedisCommandExecutionException: NOAUTH HELLO must be called with the client already authenticated,
+         * otherwise the HELLO <proto> AUTH <user> <pass> option can be used to authenticate the client and select the RESP protocol version at the same time
+         */
         sentinelConfig.setSentinelPassword(this.PASSWORD);
 
         return new LettuceConnectionFactory(sentinelConfig);

@@ -35,7 +35,9 @@ To get your redis password run :
 > export REDIS_PASSWORD=$(kubectl get secret --namespace default sentinel-redis -o jsonpath="{.data.redis-password}" | base64 -d)
 > 
 > echo $REDIS_PASSWORD
+>
 
+Then *update* application.yml and set redis password and sentinel password.
 
 ### Build docker image
 
