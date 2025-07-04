@@ -4,6 +4,11 @@
 
 > Please install docker on your machine first
 
+### Install kubectl
+
+Look at below link for kubectl installation :
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
 ### Install Helm
 > sudo snap install helm --classic
 
