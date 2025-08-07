@@ -1,10 +1,7 @@
 package ir.encoding.redis;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,12 +14,30 @@ public class RedisController {
 
     @PostMapping
     public void set(String key, String value) {
-        redisService.put(key, value);
+        redisService.set(key, value);
     }
 
     @PostMapping("/set-with-timout")
-    public void set(String key, String value, long timeout) {
-        redisService.put(key, value, timeout, TimeUnit.MINUTES);
+    public void set(
+            String key,
+            String value,
+            Long timeout) {
+        redisService.set(key, value, timeout, TimeUnit.MINUTES);
+    }
+
+    @PostMapping("/set-if-exist")
+    public Boolean setIfAlreadyExist(String key, String value) {
+        return redisService.setIfAlreadyExist(key, value);
+    }
+
+    @PostMapping("/set-if-absent")
+    public Boolean setIfAbsent(String key, String value){
+        return redisService.setIfAbsent(key, value);
+    }
+
+    @GetMapping("/ttl")
+    public Long getTTL(@RequestParam String key) {
+        return redisService.getTtlInSeconds(key);
     }
 
     @GetMapping

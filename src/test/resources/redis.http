@@ -5,6 +5,27 @@ Content-Type: application/json
 {}
 
 ###
+POST http://localhost:8080/data/set-with-timout?key=mykey&value=1&timeout=1 HTTP/2
+Accept: application/json
+Content-Type: application/json
+
+{}
+
+###
+GET http://localhost:8080/data/ttl?key=mykey HTTP/2
+Accept: application/json
+Content-Type: application/json
+
+{}
+
+###
+POST http://localhost:8080/data/set-if-exist?key=mykey&value=2 HTTP/2
+Accept: application/json
+Content-Type: application/json
+
+{}
+
+###
 GET http://localhost:8080/indices?name=Emmett Madden HTTP/2
 Accept: application/json
 Content-Type: application/json
